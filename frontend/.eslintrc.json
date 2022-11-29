@@ -1,19 +1,53 @@
 {
-  "parserOptions": {
-    "ecmaVersion": 2018
+  "globals": {
+    "BMap": true,
+    "React": "writable"
   },
+  "root": true,
   "extends": [
-    "eslint:recommended",
     "prettier",
+    "prettier/react",
+    "airbnb-typescript-prettier",
+    "plugin:import/typescript",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "eslint:recommended",
     "next/core-web-vitals"
   ],
+  "parser": "@typescript-eslint/parser",
+  // "parserOptions": {
+  //   "ecmaVersion": 2018
+  // },
+  "plugins": [
+    "@typescript-eslint",
+    "prettier",
+    "react-hooks"
+  ],
   "env": {
+    "browser": true,
     "es6": true,
     "node": true,
     "jest": true,
-    "typescript": true
+    "typescript": true,
+    "es2020": true
   },
   "rules": {
-    "no-console": "warn"
+    "semi": ["error", "never"],
+    "quotes": ["error", "single"],
+    "no-console": 0
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"],
+        "path": ["src"]
+      },
+      "typescript": {
+        "project": "."
+      }
+    },
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    }
   }
 }
