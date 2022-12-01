@@ -1,14 +1,12 @@
+import AsideItem from '@/components/AsideItem'
 import { FaHome, FaXing } from 'react-icons/fa'
 
 const Aside = () => {
   return (
-    <aside className='flex w-56 h-90vh bg-secondary-color text-tertiary-color'>
-      <ul className='p-4'>
+    <aside className='flex w-52 h-90vh bg-secondary-color text-tertiary-color'>
+      <ul className='w-full p-4 text-sm'>
         {items.map((item, index) => (
-          <li key={index} className='flex items-center py-2 hover:text-white-color hover:cursor-pointer'>
-            <span className='mr-2'>{item.icon}</span>
-            {item.name}
-          </li>
+          <AsideItem key={index} item={item} />
         ))}
       </ul>
     </aside>
