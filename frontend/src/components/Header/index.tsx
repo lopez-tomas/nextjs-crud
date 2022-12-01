@@ -6,7 +6,7 @@ const Header = () => {
       flex
       justify-between
       items-center
-      h-16
+      h-10vh
       font-bold
       bg-primary-color
       text-white-color
@@ -16,15 +16,14 @@ const Header = () => {
         <div className='
           p-2
           border-2
-          border-secondary-color
+          bg-secondary-color
+          border-tertiary-color
           rounded-md
-          text-white-color
-          transition
-          ease-in-out
-          delay-100
+          text-tertiary-color
           hover:cursor-pointer
-          hover:bg-secondary-color
-          hover:text-black-color
+          hover:bg-tertiary-color
+          hover:border-secondary-color
+          hover:text-black-2-color
         '>
           <BiExit />
         </div>
