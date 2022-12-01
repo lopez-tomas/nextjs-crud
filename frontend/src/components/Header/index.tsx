@@ -22,8 +22,8 @@ const Header = () => {
           text-tertiary-color
           hover:cursor-pointer
           hover:bg-tertiary-color
-          hover:border-secondary-color
-          hover:text-black-2-color
+          hover:border-white-color
+          hover:text-white-color
         '>
           <BiExit />
         </div>
