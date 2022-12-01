@@ -5,8 +5,12 @@
 :root {
   --white: #fff;
   --black: #070C0D;
-  --primary-color: #4D49BF;
+  --black-2: #2C2B40;
   --green: #03A64A;
   --red: #F26241;
-  --secondary-color: #F2B544;
+  --primary-color: #4D49BF;
+  --secondary-color: #1A1840;
+  --tertiary-color: #8B89CA;
+  --fourth-color: #38358C;
+  --auxiliar-color: #F2B544;
 }
