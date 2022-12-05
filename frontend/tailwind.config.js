@@ -6,6 +6,9 @@ module.exports = {
     "./src/containers/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    fontSize: {
+      '2xs': ['0.625rem', '0.75rem'],
+    },
     extend: {
       colors: {
         'white-color': 'var(--white)',
@@ -13,6 +16,9 @@ module.exports = {
         'black-2-color': 'var(--black-2)',
         'green-color': 'var(--green)',
         'red-color': 'var(--red)',
+        'red-2-color': 'var(--red-2)',
+        'blue-color': 'var(--blue)',
+        'blue-2-color': 'var(--blue-2)',
         'primary-color': 'var(--primary-color)',
         'secondary-color': 'var(--secondary-color)',
         'tertiary-color': 'var(--tertiary-color)',
