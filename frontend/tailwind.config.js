@@ -6,10 +6,10 @@ module.exports = {
     "./src/containers/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    fontSize: {
-      '2xs': ['0.625rem', '0.75rem'],
-    },
     extend: {
+      fontSize: {
+        '2xs': ['0.625rem', '0.75rem'],
+      },
       colors: {
         'white-color': 'var(--white)',
         'black-color': 'var(--black)',

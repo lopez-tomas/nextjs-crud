@@ -6,8 +6,8 @@ const ProductsPage = () => {
   return (
     <>
       <div className='w-full p-4 bg-gray-200'>
-        <h1 className='text-xl text-gray-700'>
-          / Productos
+        <h1 className='text-md text-gray-700'>
+          / <span className='text-2xl'>Productos</span>
         </h1>
 
         <div className='my-6 px-2 py-4 bg-white-color rounded-md drop-shadow-xl'>
