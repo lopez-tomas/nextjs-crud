@@ -14,8 +14,8 @@ const Aside = () => {
 }
 
 const items = [
-  { name: 'Inicio', icon: <FaHome /> },
-  { name: 'Productos', icon: <FaXing /> },
+  { name: 'Inicio', path: '/', icon: <FaHome /> },
+  { name: 'Productos', path: '/productos', icon: <FaXing /> },
 ]
 
 export default Aside
