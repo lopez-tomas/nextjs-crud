@@ -10,6 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "imports": {
+    "#database/*": "./src/database/*",
     "#config/*": "./src/config/*",
     "#routes/*": "./src/api/routes/*",
     "#services/*": "./src/api/services/*"
@@ -23,6 +24,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "joi": "^17.7.0",
+    "mysql2": "^2.3.3",
     "node-fetch": "^3.3.0"
   },
   "devDependencies": {
