@@ -1,11 +1,23 @@
 import Table from '@/components/Table'
 import TableRow from '@/components/Table/Row'
+import { NextPage } from 'next'
 import { FaPlus } from 'react-icons/fa'
 
-const ProductsPage = () => {
+interface Props {
+  products: [
+    {
+      id: number;
+      name: string;
+      category: string;
+      quantity: number;
+    }
+  ];
+}
+
+const ProductsPage: NextPage<Props> = ({ products }) => {
   return (
     <>
-      <div className='w-full p-4 bg-gray-200'>
+      <div className='h-90vh overflow-auto w-full p-4 bg-gray-200'>
         <h1 className='text-md text-gray-700'>
           / <span className='text-2xl'>Productos</span>
         </h1>
@@ -25,15 +37,32 @@ const ProductsPage = () => {
         </div>
 
         <div className='bg-white-color rounded-md'>
-          <Table columns={['COD', 'NOMBRE', 'CATEGORÍA', 'STOCK']}>
-            <TableRow item={{ cod: 1, name: 'Almendras', category: 'Baldes', quantity: 5 }} />
-            <TableRow item={{ cod: 2, name: 'Americana', category: 'Baldes', quantity: 10 }} />
-            <TableRow item={{ cod: 3, name: 'Ananá', category: 'Baldes', quantity: 2 }} />
-          </Table>
+          {products?.length > 0
+              ?
+                <Table columns={['COD', 'NOMBRE', 'CATEGORÍA', 'STOCK']}>
+                  {products?.map(product => (
+                    <TableRow key={product.id} item={product} />
+                  ))
+                  }
+                </Table>
+              :
+                <h1>No se encontaron registros.</h1>
+          }
         </div>
       </div>
     </>
   )
+}
+
+export async function getServerSideProps() {
+  const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL!)
+  const data = await res.json()
+
+  return {
+    props: {
+      products: data.products
+    }
+  }
 }
 
 export default ProductsPage
