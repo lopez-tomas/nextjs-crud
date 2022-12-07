@@ -8,10 +8,10 @@ interface Props {
 const TableRow: React.FC<Props> = ({ item, hasButtons = true }) => {
   return (
     <tr className='text-gray-700 odd:bg-gray-100'>
-      <td className='p-2'>{item.cod}</td>
-      <td className='p-2'>{item.name}</td>
-      <td className='p-2'>{item.category}</td>
-      <td className='p-2'>{item.quantity}</td>
+      <td className='p-2'>{item.id}</td>
+      <td className='p-2'>{item.nombre}</td>
+      <td className='p-2'>{item.nombre_categoria}</td>
+      <td className='p-2'>{item.cantidad}</td>
       {hasButtons
         ? <TableButtons />
         : null
