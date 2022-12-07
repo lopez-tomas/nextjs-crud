@@ -1,17 +1,12 @@
+import Link from 'next/link'
 import Table from '@/components/Table'
 import TableRow from '@/components/Table/Row'
+import { IProduct } from '../../types'
 import { NextPage } from 'next'
 import { FaPlus } from 'react-icons/fa'
 
 interface Props {
-  products: [
-    {
-      id: number;
-      name: string;
-      category: string;
-      quantity: number;
-    }
-  ];
+  products: IProduct[];
 }
 
 const ProductsPage: NextPage<Props> = ({ products }) => {
@@ -23,17 +18,19 @@ const ProductsPage: NextPage<Props> = ({ products }) => {
         </h1>
 
         <div className='my-6 px-2 py-4 bg-white-color rounded-md drop-shadow-xl'>
-          <button className='
-            flex
-            items-center
-            p-2
-            bg-primary-color
-            text-white-color
-            rounded-md
-            hover:bg-tertiary-color
-          '>
-            <FaPlus className='mr-1' /> Nuevo
-          </button>
+          <Link href='/producto'>
+            <button className='
+              flex
+              items-center
+              p-2
+              bg-primary-color
+              text-white-color
+              rounded-md
+              hover:bg-tertiary-color
+            '>
+              <FaPlus className='mr-1' /> Nuevo
+            </button>
+          </Link>
         </div>
 
         <div className='bg-white-color rounded-md'>

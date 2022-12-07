@@ -1,7 +1,8 @@
+import { IProduct } from '../../../types'
 import TableButtons from '@/components/Table/Buttons';
 
 interface Props {
-  item: any;
+  item: IProduct;
   hasButtons?: boolean;
 }
 
