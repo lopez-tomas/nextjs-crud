@@ -1,15 +1,16 @@
 import express from 'express'
+import ProductsService from '#services/products.service.js'
 
 const router = express.Router()
+const service = new ProductsService()
 
 router.get('/', async (req, res) => {
-  res.status(200).json({
-    products: [
-      { id: 1, name: 'Almendras', category: 'Baldes', quantity: 5 },
-      { id: 2, name: 'Americana', category: 'Baldes', quantity: 10 },
-      { id: 3, name: 'Ananá', category: 'Baldes', quantity: 2 }
-    ]
-  })
+  try {
+    const response = await service.getProducts()
+    res.status(200).json({ products: response })
+  } catch (error) {
+    res.status(500).json({ code: error.data.code, message: error.message })
+  }
 })
 
 export {
