@@ -31,6 +31,9 @@ module.exports = {
         '25vw': '25vw',
         '80vh': '80vh',
         '90vh': '90vh',
+      },
+      boxShadow: {
+        'input': '0 0 10px rgba(77, 73, 191, 0.8)'
       }
     },
   },
