@@ -13,6 +13,15 @@ router.get('/', async (req, res) => {
   }
 })
 
+router.get('/:id', async (req, res) => {
+  try {
+    const response = await service.getProduct(req.params.id)
+    res.status(200).json({ product: response })
+  } catch (error) {
+    res.status(500).json({ code: error.data.code, message: error.message })
+  }
+})
+
 export {
   router
 }
