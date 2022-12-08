@@ -1,13 +1,7 @@
-import Head from 'next/head'
+import PageContainer from "@/containers/PageContainer"
 
 export default function Home() {
   return (
-    <>
-      <div className='h-90vh w-full p-4 bg-gray-200'>
-        <h1 className='text-md text-gray-700'>
-          {'>'} <span className='text-2xl'>admin@admin</span>
-        </h1>
-      </div>
-    </>
+    <PageContainer pretitle='>' title='admin@admin' />
   )
 }

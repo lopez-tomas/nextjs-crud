@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import PageContainer from '@/containers/PageContainer'
 import Table from '@/components/Table'
 import TableRow from '@/components/Table/Row'
 import { IProduct } from '../../types'
@@ -11,13 +12,8 @@ interface Props {
 
 const ProductsPage: NextPage<Props> = ({ products }) => {
   return (
-    <>
-      <div className='h-90vh overflow-auto w-full p-4 bg-gray-200'>
-        <h1 className='text-md text-gray-700'>
-          / <span className='text-2xl'>Productos</span>
-        </h1>
-
-        <div className='my-6 px-2 py-4 bg-white-color rounded-md drop-shadow-xl'>
+    <PageContainer pretitle='/' title='Productos'>
+      <div className='my-6 px-2 py-4 bg-white-color rounded-md drop-shadow-xl'>
           <Link href='/producto'>
             <button className='
               flex
@@ -46,8 +42,7 @@ const ProductsPage: NextPage<Props> = ({ products }) => {
                 <h1>No se encontaron registros.</h1>
           }
         </div>
-      </div>
-    </>
+    </PageContainer>
   )
 }
 
