@@ -13,3 +13,9 @@ export interface IProduct {
   activo: number; // boolean (1, 0)
   destacado: number; // boolean (1, 0)
 }
+
+export interface ICategory {
+  id: number;
+  categoria: string;
+  activo: number; // boolean (1, 0)
+}
