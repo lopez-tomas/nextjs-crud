@@ -1,9 +1,9 @@
 import PageContainer from '@/containers/PageContainer'
-import Group from '@/components/Form/Group'
-import Input from '@/components/Form/Input'
-import Select from '@/components/Form/Select'
-import Textarea from '@/components/Form/Textarea'
-import Buttons from '@/components/Form/Buttons'
+import FormGroup from '@/components/Form/Group'
+import FormInput from '@/components/Form/Input'
+import FormSelect from '@/components/Form/Select'
+import FormTextarea from '@/components/Form/Textarea'
+import FormButtons from '@/components/Form/Buttons'
 
 import { NextPage } from 'next'
 import { IProduct, ICategory } from 'src/types'
@@ -21,43 +21,43 @@ const SingleProductPage: NextPage<Props> = ({ notFound, product, categories }) =
         <form className='w-full'>
           {!notFound
             ?
-              <Group label='Id' htmlFor='id'>
-                <Input name='id' type='text' value={!notFound ? product.id : ''} required disabled />
-              </Group>
+              <FormGroup label='Id' htmlFor='id'>
+                <FormInput name='id' type='text' value={!notFound ? product.id : ''} required disabled />
+              </FormGroup>
             :
               null
           }
 
-          <Group label='Nombre' htmlFor='name'>
-            <Input name='name' type='text' value={!notFound ? product.nombre : ''} required />
-          </Group>
+          <FormGroup label='Nombre' htmlFor='name'>
+            <FormInput name='name' type='text' value={!notFound ? product.nombre : ''} required />
+          </FormGroup>
 
-          <Group label='Código' htmlFor='col1'>
-            <Input name='col1' type='text' value={!notFound ? product.col1 : ''} />
-          </Group>
+          <FormGroup label='Código' htmlFor='col1'>
+            <FormInput name='col1' type='text' value={!notFound ? product.col1 : ''} />
+          </FormGroup>
 
-          <Group label='Categoría' htmlFor='category'>
-            <Select name='category' value={!notFound ? product.id_categoria : ''}>
+          <FormGroup label='Categoría' htmlFor='category'>
+            <FormSelect name='category' value={!notFound ? product.id_categoria : ''}>
               {categories.map(category => (
                 <option key={category.id} value={category.id}>
                   {category.categoria}
                 </option>
               ))}
-            </Select>
-          </Group>
+            </FormSelect>
+          </FormGroup>
 
-          <Group label='Descripción' htmlFor='description'>
-            <Textarea name='description' cols={30} rows={10} value={!notFound ? product.descripcion : ''} required />
-          </Group>
+          <FormGroup label='Descripción' htmlFor='description'>
+            <FormTextarea name='description' cols={30} rows={10} value={!notFound ? product.descripcion : ''} required />
+          </FormGroup>
 
-          <Group label='Activo' htmlFor='active'>
-            <Select name='active' value={!notFound ? product.activo : ''}>
+          <FormGroup label='Activo' htmlFor='active'>
+            <FormSelect name='active' value={!notFound ? product.activo : ''}>
               <option value='1'>SÍ</option>
               <option value='0'>NO</option>
-            </Select>
-          </Group>
+            </FormSelect>
+          </FormGroup>
 
-          <Buttons />
+          <FormButtons />
         </form>
       </div>
     </PageContainer>
