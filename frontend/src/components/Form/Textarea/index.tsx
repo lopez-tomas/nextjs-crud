@@ -6,7 +6,7 @@ interface Props {
   required?: boolean;
 }
 
-const Textarea: React.FC<Props> = ({ name, cols, rows, value, required }) => {
+const FormTextarea: React.FC<Props> = ({ name, cols, rows, value, required }) => {
   return (
     <textarea
       className='
@@ -29,4 +29,4 @@ const Textarea: React.FC<Props> = ({ name, cols, rows, value, required }) => {
   )
 }
 
-export default Textarea
+export default FormTextarea

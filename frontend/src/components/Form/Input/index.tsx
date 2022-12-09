@@ -6,7 +6,7 @@ interface Props {
   disabled?: boolean;
 }
 
-const Input: React.FC<Props> = ({ name, type, value, required, disabled }) => {
+const FormInput: React.FC<Props> = ({ name, type, value, required, disabled }) => {
   return (
     <input
       className='
@@ -24,4 +24,4 @@ const Input: React.FC<Props> = ({ name, type, value, required, disabled }) => {
   )
 }
 
-export default Input
+export default FormInput

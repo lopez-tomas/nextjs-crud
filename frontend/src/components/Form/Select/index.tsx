@@ -5,7 +5,7 @@ interface Props {
   children: React.ReactNode | React.ReactNode[];
 }
 
-const Select: React.FC<Props> = ({ name, value, required, children }) => {
+const FormSelect: React.FC<Props> = ({ name, value, required, children }) => {
   return (
     <select
       className='
@@ -25,4 +25,4 @@ const Select: React.FC<Props> = ({ name, value, required, children }) => {
   )
 }
 
-export default Select
+export default FormSelect

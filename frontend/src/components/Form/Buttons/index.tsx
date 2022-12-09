@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Button from '@/components/Button'
 
-const Buttons = () => {
+const FormButtons = () => {
   return (
     <div className='flex'>
       <Button styles='mr-2' text='Aceptar' secondary />
@@ -12,4 +12,4 @@ const Buttons = () => {
   )
 }
 
-export default Buttons
+export default FormButtons

@@ -4,7 +4,7 @@ interface Props {
   children: React.ReactNode | React.ReactNode[];
 }
 
-const Group: React.FC<Props> = ({ label, htmlFor, children }) => {
+const FormGroup: React.FC<Props> = ({ label, htmlFor, children }) => {
   return (
     <div className='flex items-start py-4 border-b-[1px] border-b-slate-100'>
       <label className='w-1/4' htmlFor={htmlFor}>{label}</label>
@@ -13,4 +13,4 @@ const Group: React.FC<Props> = ({ label, htmlFor, children }) => {
   )
 }
 
-export default Group
+export default FormGroup
