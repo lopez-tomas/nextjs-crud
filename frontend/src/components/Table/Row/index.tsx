@@ -14,7 +14,7 @@ const TableRow: React.FC<Props> = ({ item, hasButtons = true }) => {
       <td className='p-2'>{item.nombre_categoria}</td>
       <td className='p-2'>{item.cantidad}</td>
       {hasButtons
-        ? <TableButtons />
+        ? <TableButtons href='/producto' itemId={item.id} />
         : null
       }
     </tr>
