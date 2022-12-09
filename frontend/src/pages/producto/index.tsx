@@ -19,9 +19,14 @@ const SingleProductPage: NextPage<Props> = ({ notFound, product, categories }) =
     <PageContainer pretitle='productos/' title='Producto'>
       <div className='my-6 px-2 pb-4 bg-white-color rounded-md'>
         <form className='w-full'>
-          <Group label='Id' htmlFor='id'>
-            <Input name='id' type='text' value={!notFound ? product.id : ''} required disabled />
-          </Group>
+          {!notFound
+            ?
+              <Group label='Id' htmlFor='id'>
+                <Input name='id' type='text' value={!notFound ? product.id : ''} required disabled />
+              </Group>
+            :
+              null
+          }
 
           <Group label='Nombre' htmlFor='name'>
             <Input name='name' type='text' value={!notFound ? product.nombre : ''} required />
