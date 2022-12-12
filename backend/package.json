@@ -12,6 +12,8 @@
   "imports": {
     "#database/*": "./src/database/*",
     "#config/*": "./src/config/*",
+    "#interfaces/*": "./src/api/interfaces/*",
+    "#middlewares/*": "./src/api/middlewares/*",
     "#routes/*": "./src/api/routes/*",
     "#services/*": "./src/api/services/*"
   },
