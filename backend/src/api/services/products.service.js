@@ -42,6 +42,33 @@ class ProductsService {
       })
     })
   }
+
+  createProduct(data) {
+    return new Promise((resolve, reject) => {
+      const sql = `
+        INSERT INTO productos
+          (id_categoria, nombre, descripcion, col1, activo, destacado)
+          VALUES (?, ?, ?, ?, ?, ?)
+      `
+
+      const query = connection.query(sql, Object.values(data), (err, results, fields) => {
+        if (err)
+          return reject(boom.badRequest('[createProduct] - Error al crear el producto', err))
+
+        const newProduct = {
+          id: parseInt(results.insertId),
+        }
+
+        for (const field in data) {
+          newProduct[field] = data[field]
+        }
+
+        console.log(newProduct)
+
+        resolve(JSON.parse(JSON.stringify(newProduct)))
+      })
+    })
+  }
 }
 
 export default ProductsService
