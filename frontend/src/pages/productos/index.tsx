@@ -3,10 +3,11 @@ import PageContainer from '@/containers/PageContainer'
 import Button from '@/components/Button'
 import Table from '@/components/Table'
 import TableRow from '@/components/Table/Row'
+import TableCell from '@/components/Table/Cell'
 
 import { IProduct } from 'src/types'
 import { NextPage } from 'next'
-import { FaPlus } from 'react-icons/fa'
+import { FaPlus, FaStar } from 'react-icons/fa'
 
 interface Props {
   products: IProduct[];
@@ -29,9 +30,14 @@ const ProductsPage: NextPage<Props> = ({ products }) => {
             <Table columns={['COD', 'NOMBRE', 'CATEGORÍA']}>
               {products?.map(product => (
                 <TableRow key={product.id} item={product}>
-                  <td className='p-2'>{product.col1}</td>
-                  <td className='p-2'>{product.nombre}</td>
-                  <td className='p-2'>{product.nombre_categoria}</td>
+                  <TableCell value={product.col1} />
+                  <TableCell value={product.nombre}>
+                    {product.destacado == 1
+                      ? <FaStar className='ml-2 text-yellow-400' />
+                      : null
+                    }
+                  </TableCell>
+                  <TableCell value={product.nombre_categoria} />
                 </TableRow>
               ))
               }
