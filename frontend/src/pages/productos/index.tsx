@@ -26,9 +26,13 @@ const ProductsPage: NextPage<Props> = ({ products }) => {
       <div className='bg-white-color rounded-md'>
         {products?.length > 0
           ?
-            <Table columns={['COD', 'NOMBRE', 'CATEGORÍA', 'STOCK']}>
+            <Table columns={['COD', 'NOMBRE', 'CATEGORÍA']}>
               {products?.map(product => (
-                <TableRow key={product.id} item={product} />
+                <TableRow key={product.id} item={product}>
+                  <td className='p-2'>{product.col1}</td>
+                  <td className='p-2'>{product.nombre}</td>
+                  <td className='p-2'>{product.nombre_categoria}</td>
+                </TableRow>
               ))
               }
             </Table>
