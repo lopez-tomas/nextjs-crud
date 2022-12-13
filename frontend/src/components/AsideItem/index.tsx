@@ -17,6 +17,7 @@ const AsideItem: NextPage<Props> = ({ item }) => {
           flex
           items-center
           w-full
+          mb-1
           p-2
           rounded-md
           hover:bg-tertiary-color
