@@ -1,4 +1,6 @@
+import { useRouter } from 'next/router';
 import Link from 'next/link'
+
 import { IProduct } from 'src/types'
 import { FaPen, FaTimes, FaCheck, FaTrashAlt } from 'react-icons/fa'
 
@@ -9,6 +11,28 @@ interface Props {
 }
 
 const TableButtons: React.FC<Props> = ({ href, item, canDelete = false }) => {
+  const router = useRouter()
+
+  const handleClick = () => {
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_URL!}/products`
+    const options = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ id: item.id, active: item.activo == 1 ? 0 : 1 })
+    }
+
+    fetch(url, options)
+      .then(res => res.json())
+      .then(data => {
+        router.reload()
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
   return (
     <td className={`
       ${canDelete ? 'flex justify-between' : ''}
@@ -27,7 +51,7 @@ const TableButtons: React.FC<Props> = ({ href, item, canDelete = false }) => {
             <FaPen />
           </button>
         </Link>
-        <button className={`
+        <button onClick={handleClick} className={`
           p-2
           rounded-md
           ${item.activo == 1 ? 'bg-red-color hover:bg-red-2-color' : 'bg-green-color'}
