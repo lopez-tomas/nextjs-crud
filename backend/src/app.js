@@ -1,15 +1,28 @@
 import express from 'express'
+import cors from 'cors'
 import { router } from '#routes/index.js'
 import { config } from '#config/index.js'
+import { logErrors, errorHandler, boomErrorHandler } from '#middlewares/error.handler.js';
 
 const app = express()
 const port = config.port
 const env = config.env
 
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
-// cors
-// app.use(cors(options))
+const whiteList = ['http://localhost:3000']
+const options = {
+  origin: (origin, callback) => {
+    if (whiteList.includes(origin) || !origin) {
+      callback(null, true)
+    } else {
+      callback(new Error('Origin not allowed: ' + origin))
+    }
+  }
+}
+
+app.use(cors(options))
 
 app.get('/', (req, res) => {
   res.send(`
@@ -19,6 +32,10 @@ app.get('/', (req, res) => {
 })
 
 router(app)
+
+app.use(logErrors);
+app.use(boomErrorHandler);
+app.use(errorHandler);
 
 app.listen(port, () => {
   env == 'dev' && console.log(`Listening at http://localhost:${port}`)
