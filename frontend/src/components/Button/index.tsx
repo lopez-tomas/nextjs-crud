@@ -1,15 +1,17 @@
 interface Props {
   styles?: string;
   text: string;
+  submit?: boolean;
   primary?: boolean;
   secondary?: boolean;
   cancel?: boolean;
   children?: React.ReactNode;
 }
 
-const Button: React.FC<Props> = ({ styles, text, primary, secondary, cancel, children }) => {
+const Button: React.FC<Props> = ({ styles, text, submit, primary, secondary, cancel, children }) => {
   return (
     <button
+      type={submit ? 'submit' : 'button'}
       className={`
         flex
         items-center
