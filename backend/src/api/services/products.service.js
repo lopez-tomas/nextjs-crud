@@ -72,28 +72,41 @@ class ProductsService {
 
   updateProduct(data) {
     return new Promise((resolve, reject) => {
-      const sql = `
-        UPDATE productos SET
-          id_categoria = ?,
-          nombre = ?,
-          descripcion = ?,
-          col1 = ?,
-          activo = ?,
-          destacado = ?
-        WHERE id = ?
-      `
+      const sql = 'UPDATE productos SET ? WHERE ?'
 
-      const query = connection.query(sql,
-        [data.id_category, data.name, data.description, data.col1, data.active, data.featured, data.id],
-        (err, results, fields) => {
-          if (err)
-            return reject(boom.badRequest('[updateProduct] - Error al actualizar el producto', err))
+      let values = {}
+      if (data.id_category != null) {
+        values.id_categoria = data.id_category
+      }
+      if (data.name != null) {
+        values.nombre = data.name
+      }
+      if (data.description != null) {
+        values.descripcion = data.description
+      }
+      if (data.col1 != null) {
+        values.col1 = data.col1
+      }
+      if (data.active != null) {
+        values.activo = data.active
+      }
+      if (data.featured != null) {
+        values.destacado = data.featured
+      }
 
-          resolve(JSON.parse(JSON.stringify({
-            id: parseInt(data.id),
-            message: '[updateProduct] - Producto actualizado exitosamente.',
-          })))
-        })
+      let filters = { id: data.id }
+
+      values = [values, filters]
+
+      const query = connection.query(sql, values, (err, results, fields) => {
+        if (err)
+          return reject(boom.badRequest('[updateProduct] - Error al actualizar el producto', err))
+
+        resolve(JSON.parse(JSON.stringify({
+          id: parseInt(data.id),
+          message: '[updateProduct] - Producto actualizado exitosamente.',
+        })))
+      })
     })
   }
 }
