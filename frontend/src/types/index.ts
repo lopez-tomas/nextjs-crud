@@ -19,3 +19,13 @@ export interface ICategory {
   categoria: string;
   activo: number; // boolean (1, 0)
 }
+
+export interface ICreateProduct {
+  id?: number;
+  id_category: number;
+  name: string;
+  description: string;
+  col1: string;
+  active: number // boolean (1, 0)
+  featured: number // boolean (1, 0)
+}
