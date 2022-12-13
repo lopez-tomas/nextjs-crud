@@ -45,28 +45,42 @@ class ProductsService {
 
   createProduct(data) {
     return new Promise((resolve, reject) => {
-      const sql = `
-        INSERT INTO productos
-          (id_categoria, nombre, descripcion, col1, activo, destacado)
-          VALUES (?, ?, ?, ?, ?, ?)
-      `
+      const sql = 'INSERT INTO productos SET ?'
 
-      const query = connection.query(sql,
-        [data.id_category, data.name, data.description, data.col1, data.active, data.featured],
-        (err, results, fields) => {
-          if (err)
-            return reject(boom.badRequest('[createProduct] - Error al crear el producto', err))
+      let values = {}
+      if (data.id_category != null) {
+        values.id_categoria = data.id_category
+      }
+      if (data.name != null && data.name != "") {
+        values.nombre = data.name
+      }
+      if (data.description != null && data.description != "") {
+        values.descripcion = data.description
+      }
+      if (data.col1 != null && data.col1 != "") {
+        values.col1 = data.col1
+      }
+      if (data.active != null) {
+        values.activo = data.active
+      }
+      if (data.featured != null) {
+        values.destacado = data.featured
+      }
 
-          const newProduct = {
-            id: parseInt(results.insertId),
-          }
+      const query = connection.query(sql, values, (err, results, fields) => {
+        if (err)
+          return reject(boom.badRequest('[createProduct] - Error al crear el producto', err))
 
-          for (const field in data) {
-            newProduct[field] = data[field]
-          }
+        const newProduct = {
+          id: parseInt(results.insertId),
+        }
 
-          resolve(JSON.parse(JSON.stringify(newProduct)))
-        })
+        for (const field in data) {
+          newProduct[field] = data[field]
+        }
+
+        resolve(JSON.parse(JSON.stringify(newProduct)))
+      })
     })
   }
 
