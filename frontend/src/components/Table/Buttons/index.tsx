@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link'
 
 import { IProduct } from 'src/types'
-import { FaPen, FaTimes, FaCheck, FaTrashAlt } from 'react-icons/fa'
+import { FaPen, FaTimes, FaCheck, FaStar, FaTrashAlt } from 'react-icons/fa'
 
 interface Props {
   href: string;
@@ -47,12 +47,15 @@ const TableButtons: React.FC<Props> = ({ href, item, canDelete = false }) => {
             query: { id: `${item.id}` }
           }}
         >
-          <button className='mr-1 p-2 bg-blue-color rounded-md hover:bg-blue-2-color'>
+          <button className='mr-1 p-2 bg-blue-color border-[1px] rounded-md hover:bg-blue-2-color'>
             <FaPen />
           </button>
         </Link>
+
         <button onClick={handleClick} className={`
+          mr-1
           p-2
+          border-[1px]
           rounded-md
           ${item.activo == 1 ? 'bg-red-color hover:bg-red-2-color' : 'bg-green-color'}
         `}>
@@ -61,11 +64,26 @@ const TableButtons: React.FC<Props> = ({ href, item, canDelete = false }) => {
             : <FaCheck />
           }
         </button>
+
+        <button className={`
+          p-2
+          border-[1px]
+          text-black-color
+          rounded-md
+          ${item.destacado == 1
+            ?
+              'bg-yellow-400 border-transparent hover:bg-transparent hover:border-black-color'
+            :
+              'bg-transparent border-black-color hover:bg-yellow-400 hover:border-transparent'
+          }
+        `}>
+          <FaStar />
+        </button>
       </div>
 
       {canDelete
         ?
-          <button className='p-2 bg-red-2-color rounded-md'>
+          <button className='p-2 bg-red-2-color border-[1px] rounded-md'>
             <FaTrashAlt />
           </button>
         : null
