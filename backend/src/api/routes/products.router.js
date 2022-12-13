@@ -11,55 +11,52 @@ import {
 const router = express.Router()
 const productService = new ProductsService()
 
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
   try {
     const response = await productService.getProducts()
     res.status(200).json({ products: response })
   } catch (error) {
-    res.status(500).json({ code: error.data.code, message: error.message })
+    next(error);
   }
 })
 
 router.get('/:id',
   validatorHandler(getProductSchema, 'params'),
-  async (req, res) => {
+  async (req, res, next) => {
     const { id } = req.params
     try {
       const response = await productService.getProduct(id)
-
-      res.status(200).json({
-        product: response,
-      })
+      res.status(200).json({ product: response })
     } catch (error) {
-      res.status(500).json({ code: error.data.code, message: error.message })
+      next(error);
     }
   }
 )
 
 router.post('/',
   validatorHandler(createProductSchema, 'body'),
-  async (req, res) => {
+  async (req, res, next) => {
     const body = req.body
 
     try {
       const newProduct = await productService.createProduct(body)
       res.status(201).json(newProduct)
     } catch (error) {
-      res.status(500).json({ code: error.code, message: error.message })
+      next(error);
     }
   }
 )
 
 router.patch('/',
   validatorHandler(updateProductSchema, 'body'),
-  async (req, res) => {
+  async (req, res, next) => {
     const body = req.body
 
     try {
       const response = await productService.updateProduct(body)
       res.status(202).json(response)
     } catch (error) {
-      res.status(500).json({ code: error.code, message: error.message })
+      next(error);
     }
   }
 )
