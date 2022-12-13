@@ -13,7 +13,7 @@ interface Props {
 const TableButtons: React.FC<Props> = ({ href, item, canDelete = false }) => {
   const router = useRouter()
 
-  const handleClick = () => {
+  const changeItemActive = () => {
     const url = `${process.env.NEXT_PUBLIC_BACKEND_URL!}/products`
     const options = {
       method: 'PATCH',
@@ -21,6 +21,26 @@ const TableButtons: React.FC<Props> = ({ href, item, canDelete = false }) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ id: item.id, active: item.activo == 1 ? 0 : 1 })
+    }
+
+    fetch(url, options)
+      .then(res => res.json())
+      .then(data => {
+        router.reload()
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
+  const changeItemFeatured = () => {
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_URL!}/products`
+    const options = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ id: item.id, featured: item.destacado == 1 ? 0 : 1 })
     }
 
     fetch(url, options)
@@ -52,7 +72,7 @@ const TableButtons: React.FC<Props> = ({ href, item, canDelete = false }) => {
           </button>
         </Link>
 
-        <button onClick={handleClick} className={`
+        <button onClick={changeItemActive} className={`
           mr-1
           p-2
           border-[1px]
@@ -65,7 +85,7 @@ const TableButtons: React.FC<Props> = ({ href, item, canDelete = false }) => {
           }
         </button>
 
-        <button className={`
+        <button onClick={changeItemFeatured} className={`
           p-2
           border-[1px]
           text-black-color
