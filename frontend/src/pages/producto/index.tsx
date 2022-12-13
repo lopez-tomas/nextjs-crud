@@ -1,3 +1,7 @@
+import { useRef } from 'react'
+import { useRouter } from 'next/router'
+import { NextPage } from 'next'
+
 import PageContainer from '@/containers/PageContainer'
 import FormGroup from '@/components/Form/Group'
 import FormInput from '@/components/Form/Input'
@@ -5,8 +9,7 @@ import FormSelect from '@/components/Form/Select'
 import FormTextarea from '@/components/Form/Textarea'
 import FormButtons from '@/components/Form/Buttons'
 
-import { NextPage } from 'next'
-import { IProduct, ICategory } from 'src/types'
+import { IProduct, ICategory, ICreateProduct } from 'src/types'
 
 interface Props {
   notFound: boolean;
@@ -15,14 +18,66 @@ interface Props {
 }
 
 const SingleProductPage: NextPage<Props> = ({ notFound, product, categories }) => {
+  const router = useRouter()
+  const formRef = useRef(null)
+
+  const handleSubmit = async (e: React.SyntheticEvent) => {
+    e.preventDefault()
+    const target = e.target as typeof e.target & {
+      id: { value: number };
+      category: { value: number };
+      name: { value: string };
+      description: { value: string };
+      col1: { value: string };
+      active: { value: number };
+      featured: { value: number };
+    }
+
+    const data: ICreateProduct = {
+      id_category: target.category.value,
+      name: target.name.value,
+      description: target.description.value,
+      col1: target.col1.value,
+      active: target.active.value,
+      featured: target.featured.value,
+    }
+
+    let url = `${process.env.NEXT_PUBLIC_BACKEND_URL!}/products`
+    const options = {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Methods': 'GET, POST, PATCH',
+      },
+      body: JSON.stringify(data)
+    }
+
+    if (target.id.value) {
+      data.id = target.id.value
+
+      options.method = 'PATCH'
+      options.body = JSON.stringify(data)
+    }
+
+    fetch(url, options)
+      .then(res => res.json())
+      .then(data => {
+        router.reload()
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
   return (
     <PageContainer pretitle='productos/' title='Producto'>
       <div className='my-6 px-2 pb-4 bg-white-color rounded-md'>
-        <form className='w-full'>
+        <form ref={formRef} onSubmit={e => handleSubmit(e)} className='w-full'>
           {!notFound
             ?
               <FormGroup label='Id' htmlFor='id'>
-                <FormInput name='id' type='text' value={!notFound ? product.id : ''} required disabled />
+                <FormInput name='id' type='number' value={!notFound ? product.id : ''} required disabled />
               </FormGroup>
             :
               null
@@ -54,6 +109,13 @@ const SingleProductPage: NextPage<Props> = ({ notFound, product, categories }) =
             <FormSelect name='active' value={!notFound ? product.activo : ''}>
               <option value='1'>SÍ</option>
               <option value='0'>NO</option>
+            </FormSelect>
+          </FormGroup>
+
+          <FormGroup label='Destacado' htmlFor='featured'>
+            <FormSelect name='featured' value={!notFound ? product.destacado : ''}>
+              <option value='0'>NO</option>
+              <option value='1'>SÍ</option>
             </FormSelect>
           </FormGroup>
 
