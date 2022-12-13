@@ -1,7 +1,8 @@
-import { useRouter } from 'next/router';
 import Link from 'next/link'
+import { useRouter } from 'next/router';
+import useEditItem from '@/utils/useEditItem'
 
-import { IProduct } from 'src/types'
+import { IProduct, IEditProduct } from 'src/types'
 import { FaPen, FaTimes, FaCheck, FaStar, FaTrashAlt } from 'react-icons/fa'
 
 interface Props {
@@ -13,44 +14,17 @@ interface Props {
 const TableButtons: React.FC<Props> = ({ href, item, canDelete = false }) => {
   const router = useRouter()
 
-  const changeItemActive = () => {
-    const url = `${process.env.NEXT_PUBLIC_BACKEND_URL!}/products`
-    const options = {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ id: item.id, active: item.activo == 1 ? 0 : 1 })
+  const handleClick = async (dataProp: keyof IEditProduct, prop: keyof IProduct) => {
+    let method = 'PATCH'
+    let data: IEditProduct = {
+      id: item.id,
+      [dataProp]: item[prop] == 1 ? 0 : 1
     }
 
-    fetch(url, options)
-      .then(res => res.json())
-      .then(data => {
-        router.reload()
-      })
-      .catch(err => {
-        console.log(err)
-      })
-  }
-
-  const changeItemFeatured = () => {
-    const url = `${process.env.NEXT_PUBLIC_BACKEND_URL!}/products`
-    const options = {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ id: item.id, featured: item.destacado == 1 ? 0 : 1 })
+    const id = await useEditItem('products', method, data)
+    if (id) {
+      router.reload()
     }
-
-    fetch(url, options)
-      .then(res => res.json())
-      .then(data => {
-        router.reload()
-      })
-      .catch(err => {
-        console.log(err)
-      })
   }
 
   return (
@@ -72,7 +46,7 @@ const TableButtons: React.FC<Props> = ({ href, item, canDelete = false }) => {
           </button>
         </Link>
 
-        <button onClick={changeItemActive} className={`
+        <button onClick={() => handleClick('active', 'activo')} className={`
           mr-1
           p-2
           border-[1px]
@@ -85,7 +59,7 @@ const TableButtons: React.FC<Props> = ({ href, item, canDelete = false }) => {
           }
         </button>
 
-        <button onClick={changeItemFeatured} className={`
+        <button onClick={() => handleClick('featured', 'destacado')} className={`
           p-2
           border-[1px]
           text-black-color

@@ -1,6 +1,7 @@
+import { NextPage } from 'next'
 import { useRef } from 'react'
 import { useRouter } from 'next/router'
-import { NextPage } from 'next'
+import useEditItem from '@/utils/useEditItem'
 
 import PageContainer from '@/containers/PageContainer'
 import FormGroup from '@/components/Form/Group'
@@ -9,7 +10,7 @@ import FormSelect from '@/components/Form/Select'
 import FormTextarea from '@/components/Form/Textarea'
 import FormButtons from '@/components/Form/Buttons'
 
-import { IProduct, ICategory, ICreateProduct } from 'src/types'
+import { IProduct, ICategory, ICreateProduct, IEditProduct } from 'src/types'
 
 interface Props {
   notFound: boolean;
@@ -18,8 +19,8 @@ interface Props {
 }
 
 const SingleProductPage: NextPage<Props> = ({ notFound, product, categories }) => {
-  const router = useRouter()
   const formRef = useRef(null)
+  const router = useRouter()
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
@@ -33,41 +34,26 @@ const SingleProductPage: NextPage<Props> = ({ notFound, product, categories }) =
       featured: { value: number };
     }
 
-    const data: ICreateProduct = {
+    const data: ICreateProduct | IEditProduct = {
       id_category: target.category.value,
       name: target.name.value,
       description: target.description.value,
-      col1: target.col1.value,
+      col1: target.col1.value != "" ? target.col1.value : null,
       active: target.active.value,
       featured: target.featured.value,
     }
 
-    let url = `${process.env.NEXT_PUBLIC_BACKEND_URL!}/products`
-    const options = {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Methods': 'GET, POST, PATCH',
-      },
-      body: JSON.stringify(data)
-    }
+    let method = 'POST'
 
     if (target.id.value) {
       data.id = target.id.value
-
-      options.method = 'PATCH'
-      options.body = JSON.stringify(data)
+      method = 'PATCH'
     }
 
-    fetch(url, options)
-      .then(res => res.json())
-      .then(data => {
-        router.reload()
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    const id = await useEditItem('products', method, data)
+    if (id) {
+      router.replace(`/producto?id=${id}`)
+    }
   }
 
   return (
@@ -88,7 +74,7 @@ const SingleProductPage: NextPage<Props> = ({ notFound, product, categories }) =
           </FormGroup>
 
           <FormGroup label='Código' htmlFor='col1'>
-            <FormInput name='col1' type='text' value={!notFound ? product.col1 : ''} />
+            <FormInput name='col1' type='text' value={!notFound && product.col1 != null ? product.col1 : ''} />
           </FormGroup>
 
           <FormGroup label='Categoría' htmlFor='category'>
