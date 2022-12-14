@@ -123,6 +123,22 @@ class ProductsService {
       })
     })
   }
+
+  deleteProduct(id) {
+    return new Promise((resolve, reject) => {
+      const sql = 'DELETE FROM productos WHERE id = ?'
+
+      const query = connection.query(sql, [id], (err, results, fields) => {
+        if (err)
+          return reject(boom.badRequest('[deleteProduct] - Error al eliminar el producto', err))
+
+        resolve(JSON.parse(JSON.stringify({
+          id: parseInt(id),
+          message: '[deleteProduct] - Producto eliminado exitosamente.',
+        })))
+      })
+    })
+  }
 }
 
 export default ProductsService
