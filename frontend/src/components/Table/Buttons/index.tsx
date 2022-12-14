@@ -1,6 +1,4 @@
 import Link from 'next/link'
-import { useRouter } from 'next/router';
-import useEditItem from '@/utils/useEditItem'
 
 import { IProduct, IEditProduct } from 'src/types'
 import { FaPen, FaTimes, FaCheck, FaStar, FaTrashAlt } from 'react-icons/fa'
@@ -9,28 +7,46 @@ interface Props {
   href: string;
   item: IProduct;
   canDelete?: boolean;
+  handleEditModal: () => void;
+  setMessage: React.Dispatch<React.SetStateAction<string>>;
+  setUrl: React.Dispatch<React.SetStateAction<string>>;
+  setMethod: React.Dispatch<React.SetStateAction<string>>;
+  setData: React.Dispatch<React.SetStateAction<IEditProduct | null>>;
 }
 
-const TableButtons: React.FC<Props> = ({ href, item, canDelete = false }) => {
-  const router = useRouter()
+const TableButtons: React.FC<Props> = ({
+  href,
+  item,
+  canDelete = false,
+  handleEditModal,
+  setMessage,
+  setUrl,
+  setMethod,
+  setData,
+}) => {
+  const handleClick = async (
+    url: string,
+    method: string,
+    dataProp?: keyof IEditProduct,
+    prop?: keyof IProduct
+  ) => {
+    handleEditModal()
 
-  const handleClick = async (dataProp: keyof IEditProduct, prop: keyof IProduct) => {
-    let method = 'PATCH'
-    let data: IEditProduct = {
-      id: item.id,
-      [dataProp]: item[prop] == 1 ? 0 : 1
+    if (dataProp == 'active') {
+      setMessage(`¿Quieres ${item.activo == 1 ? 'desactivar' : 'activar'} este producto?`)
+    } else if (dataProp == 'featured') {
+      setMessage(`¿Quieres ${item.destacado == 0 ? 'destacar' : 'dejar de destacar'} este producto?`)
+    } else {
+      setMessage('¿Quieres eliminar este producto?')
     }
 
-    const id = await useEditItem('products', method, data)
-    if (id) {
-      router.reload()
-    }
-  }
+    setUrl(`${url}`)
+    setMethod(`${method}`)
 
-  const handleDelete = async () => {
-    const id = await useEditItem(`products/${item.id}`, 'DELETE', { id: item.id })
-    if (id) {
-      router.reload()
+    if (method == 'DELETE' || method == 'delete') {
+      setData({ id: item.id })
+    } else {
+      setData({ id: item.id, [dataProp!]: item[prop!] == 1 ? 0 : 1 })
     }
   }
 
@@ -51,7 +67,9 @@ const TableButtons: React.FC<Props> = ({ href, item, canDelete = false }) => {
         </button>
       </Link>
 
-      <button onClick={() => handleClick('active', 'activo')} className={`
+      <button
+        onClick={() => handleClick('products', 'PATCH', 'active', 'activo')}
+        className={`
         mr-1
         p-2
         border-[1px]
@@ -65,7 +83,9 @@ const TableButtons: React.FC<Props> = ({ href, item, canDelete = false }) => {
       </button>
 
       {!canDelete &&
-        <button onClick={() => handleClick('featured', 'destacado')} className={`
+        <button
+          onClick={() => handleClick('products', 'PATCH', 'featured', 'destacado')}
+          className={`
           p-2
           border-[1px]
           text-black-color
@@ -82,7 +102,7 @@ const TableButtons: React.FC<Props> = ({ href, item, canDelete = false }) => {
       }
 
       {canDelete &&
-        <button onClick={handleDelete} className='p-2 bg-red-2-color border-[1px] rounded-md hover:bg-red-500'>
+        <button onClick={() => handleClick(`products/${item.id}`, 'DELETE')} className='p-2 bg-red-2-color border-[1px] rounded-md hover:bg-red-500'>
           <FaTrashAlt />
         </button>
       }
