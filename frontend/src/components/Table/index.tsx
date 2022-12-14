@@ -1,7 +1,7 @@
 interface Props {
   columns: string[];
   hasButtons?: boolean;
-  children: React.ReactElement[];
+  children: React.ReactElement | React.ReactElement[];
 }
 
 const Table: React.FC<Props> = ({ columns, hasButtons = false, children }) => {

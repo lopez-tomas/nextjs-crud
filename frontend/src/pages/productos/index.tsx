@@ -25,10 +25,10 @@ const ProductsPage: NextPage<Props> = ({ products }) => {
       </div>
 
       <div className='bg-white-color rounded-md'>
-        {products?.length > 0
-          ?
-            <Table columns={['COD', 'NOMBRE', 'CATEGORÍA']} hasButtons>
-              {products?.map(product => (
+        <Table columns={['COD', 'NOMBRE', 'CATEGORÍA']} hasButtons>
+          {products?.length > 0
+            ?
+              products?.map(product => (
                 <TableRow key={product.id} href='/producto' item={product} hasButtons canDelete>
                   <TableCell value={product.col1 != null ? product.col1 : ''} />
                   <TableCell value={product.nombre}>
@@ -40,11 +40,12 @@ const ProductsPage: NextPage<Props> = ({ products }) => {
                   <TableCell value={product.nombre_categoria} />
                 </TableRow>
               ))
-              }
-            </Table>
-          :
-            <h1>No se encontaron registros.</h1>
-        }
+            :
+              <TableRow>
+                <TableCell value='No hay productos' />
+              </TableRow>
+          }
+        </Table>
       </div>
     </PageContainer>
   )
