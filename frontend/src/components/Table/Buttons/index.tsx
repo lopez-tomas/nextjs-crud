@@ -36,36 +36,35 @@ const TableButtons: React.FC<Props> = ({ href, item, canDelete = false }) => {
 
   return (
     <td className={`
-      ${canDelete ? 'flex justify-between' : ''}
       p-2
-      text-right
       text-2xs
+      text-right
       text-white-color
     `}>
-      <div>
-        <Link href={{
-            pathname: `${href}`,
-            query: { id: `${item.id}` }
-          }}
-        >
-          <button className='mr-1 p-2 bg-blue-color border-[1px] rounded-md hover:bg-blue-2-color'>
-            <FaPen />
-          </button>
-        </Link>
-
-        <button onClick={() => handleClick('active', 'activo')} className={`
-          mr-1
-          p-2
-          border-[1px]
-          rounded-md
-          ${item.activo == 1 ? 'bg-red-color hover:bg-red-2-color' : 'bg-green-color'}
-        `}>
-          {item.activo == 1
-            ? <FaTimes />
-            : <FaCheck />
-          }
+      <Link href={{
+          pathname: `${href}`,
+          query: { id: `${item.id}` }
+        }}
+      >
+        <button className='mr-1 p-2 bg-blue-color border-[1px] rounded-md hover:bg-blue-2-color'>
+          <FaPen />
         </button>
+      </Link>
 
+      <button onClick={() => handleClick('active', 'activo')} className={`
+        mr-1
+        p-2
+        border-[1px]
+        rounded-md
+        ${item.activo == 1 ? 'bg-red-color hover:bg-red-2-color' : 'bg-green-color'}
+      `}>
+        {item.activo == 1
+          ? <FaTimes />
+          : <FaCheck />
+        }
+      </button>
+
+      {!canDelete &&
         <button onClick={() => handleClick('featured', 'destacado')} className={`
           p-2
           border-[1px]
@@ -80,14 +79,12 @@ const TableButtons: React.FC<Props> = ({ href, item, canDelete = false }) => {
         `}>
           <FaStar />
         </button>
-      </div>
+      }
 
-      {canDelete
-        ?
-          <button onClick={handleDelete} className='p-2 bg-red-2-color border-[1px] rounded-md hover:bg-red-500'>
-            <FaTrashAlt />
-          </button>
-        : null
+      {canDelete &&
+        <button onClick={handleDelete} className='p-2 bg-red-2-color border-[1px] rounded-md hover:bg-red-500'>
+          <FaTrashAlt />
+        </button>
       }
     </td>
   )
