@@ -5,12 +5,14 @@ interface Props {
   primary?: boolean;
   secondary?: boolean;
   cancel?: boolean;
+  onClick?: () => void;
   children?: React.ReactNode;
 }
 
-const Button: React.FC<Props> = ({ styles, text, submit, primary, secondary, cancel, children }) => {
+const Button: React.FC<Props> = ({ styles, text, submit, primary, secondary, cancel,  onClick, children }) => {
   return (
     <button
+      onClick={onClick}
       type={submit ? 'submit' : 'button'}
       className={`
         flex
