@@ -2,13 +2,14 @@ import { IProduct } from '../../../types'
 import TableButtons from '@/components/Table/Buttons';
 
 interface Props {
+  href: string;
   item: IProduct;
   hasButtons?: boolean;
   canDelete?: boolean;
   children: React.ReactNode | React.ReactNode[];
 }
 
-const TableRow: React.FC<Props> = ({ item, hasButtons = true, canDelete = false, children }) => {
+const TableRow: React.FC<Props> = ({ href, item, hasButtons = false, canDelete = false, children }) => {
   return (
     <tr className={`
       text-gray-700
@@ -19,7 +20,7 @@ const TableRow: React.FC<Props> = ({ item, hasButtons = true, canDelete = false,
       {children}
 
       {hasButtons
-        ? <TableButtons href='/producto' item={item} canDelete={canDelete} />
+        ? <TableButtons href={href} item={item} canDelete={canDelete} />
         : null
       }
     </tr>

@@ -4,7 +4,7 @@ interface Props {
   children: React.ReactElement[];
 }
 
-const Table: React.FC<Props> = ({ columns, hasButtons = true, children }) => {
+const Table: React.FC<Props> = ({ columns, hasButtons = false, children }) => {
   return (
     <table className='w-full table-auto'>
       <thead>

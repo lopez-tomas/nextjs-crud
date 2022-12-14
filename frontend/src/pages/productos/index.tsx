@@ -27,9 +27,9 @@ const ProductsPage: NextPage<Props> = ({ products }) => {
       <div className='bg-white-color rounded-md'>
         {products?.length > 0
           ?
-            <Table columns={['COD', 'NOMBRE', 'CATEGORÍA']}>
+            <Table columns={['COD', 'NOMBRE', 'CATEGORÍA']} hasButtons>
               {products?.map(product => (
-                <TableRow key={product.id} item={product} canDelete>
+                <TableRow key={product.id} href='/producto' item={product} hasButtons canDelete>
                   <TableCell value={product.col1 != null ? product.col1 : ''} />
                   <TableCell value={product.nombre}>
                     {product.destacado == 1
