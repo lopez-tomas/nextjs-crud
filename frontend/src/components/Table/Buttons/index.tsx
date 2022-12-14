@@ -27,11 +27,18 @@ const TableButtons: React.FC<Props> = ({ href, item, canDelete = false }) => {
     }
   }
 
+  const handleDelete = async () => {
+    const id = await useEditItem(`products/${item.id}`, 'DELETE', { id: item.id })
+    if (id) {
+      router.reload()
+    }
+  }
+
   return (
     <td className={`
       ${canDelete ? 'flex justify-between' : ''}
       p-2
-      text-center
+      text-right
       text-2xs
       text-white-color
     `}>
@@ -77,7 +84,7 @@ const TableButtons: React.FC<Props> = ({ href, item, canDelete = false }) => {
 
       {canDelete
         ?
-          <button className='p-2 bg-red-2-color border-[1px] rounded-md'>
+          <button onClick={handleDelete} className='p-2 bg-red-2-color border-[1px] rounded-md hover:bg-red-500'>
             <FaTrashAlt />
           </button>
         : null
