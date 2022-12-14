@@ -7,7 +7,7 @@ interface Props {
   href: string;
   item: IProduct;
   canDelete?: boolean;
-  handleEditModal: () => void;
+  handleModal: () => void;
   setMessage: React.Dispatch<React.SetStateAction<string>>;
   setUrl: React.Dispatch<React.SetStateAction<string>>;
   setMethod: React.Dispatch<React.SetStateAction<string>>;
@@ -18,7 +18,7 @@ const TableButtons: React.FC<Props> = ({
   href,
   item,
   canDelete = false,
-  handleEditModal,
+  handleModal,
   setMessage,
   setUrl,
   setMethod,
@@ -30,7 +30,7 @@ const TableButtons: React.FC<Props> = ({
     dataProp?: keyof IEditProduct,
     prop?: keyof IProduct
   ) => {
-    handleEditModal()
+    handleModal()
 
     if (dataProp == 'active') {
       setMessage(`¿Quieres ${item.activo == 1 ? 'desactivar' : 'activar'} este producto?`)

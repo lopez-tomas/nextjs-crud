@@ -70,7 +70,7 @@ const ProductsPage: NextPage<Props> = ({ products }) => {
                     href='/producto'
                     item={product}
                     canDelete
-                    handleEditModal={() => {
+                    handleModal={() => {
                       setModalOpen(!modalOpen)
                       setModalMessage('')
                       setUrl('')
