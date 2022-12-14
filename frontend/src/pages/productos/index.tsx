@@ -29,7 +29,7 @@ const ProductsPage: NextPage<Props> = ({ products }) => {
           ?
             <Table columns={['COD', 'NOMBRE', 'CATEGORÍA']}>
               {products?.map(product => (
-                <TableRow key={product.id} item={product}>
+                <TableRow key={product.id} item={product} canDelete>
                   <TableCell value={product.col1 != null ? product.col1 : ''} />
                   <TableCell value={product.nombre}>
                     {product.destacado == 1
