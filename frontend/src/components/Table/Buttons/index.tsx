@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
 import IconButton from '@/components/IconButton'
+import { inParagraph, inSpan } from '@/utils/index'
 import { IProduct, IEditProduct } from 'src/types'
 import { FaPen, FaTimes, FaCheck, FaStar, FaTrashAlt } from 'react-icons/fa'
 
@@ -34,11 +35,11 @@ const TableButtons: React.FC<Props> = ({
     handleModal()
 
     if (dataProp == 'active') {
-      setMessage(`¿Quieres ${item.activo == 1 ? 'desactivar' : 'activar'} este producto?`)
+      setMessage(inParagraph(inSpan(item.activo == 0 ? 'activar' : 'desactivar'), 'producto', 'M'))
     } else if (dataProp == 'featured') {
-      setMessage(`¿Quieres ${item.destacado == 0 ? 'destacar' : 'dejar de destacar'} este producto?`)
+      setMessage(inParagraph(inSpan(item.destacado == 0 ? 'destacar' : 'no destacar'), 'producto', 'M'))
     } else {
-      setMessage('¿Quieres eliminar este producto?')
+      setMessage(inParagraph(inSpan('eliminar'), 'producto', 'M'))
     }
 
     setUrl(`${url}`)
