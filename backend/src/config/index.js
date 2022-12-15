@@ -14,7 +14,10 @@ const dbConfig = {
   password: process.env.DB_PASS,
 }
 
+const secretKey = process.env.SECRET_KEY
+
 export {
   config,
   dbConfig,
+  secretKey,
 }
