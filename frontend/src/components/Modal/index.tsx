@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
+import parser from 'html-react-parser'
 
 import ReactPortal from '@/components/ReactPortal'
 import Button from '@/components/Button'
@@ -62,7 +63,7 @@ const Modal = ({ modalId, isOpen, handleClose, modalMessage, url, method, data }
           <div className='box-border h-5/6'>
             <div className='flex flex-col justify-between h-full w-full'>
               <div className='flex flex-col mt-auto mb-auto items-center p-8'>
-                <span>{modalMessage}</span>
+                {parser(modalMessage)}
               </div>
               <div className='flex flex-col sm:flex-row justify-center gap-8 align-center'>
                 <Button onClick={handleClick} text='Aceptar' secondary />
