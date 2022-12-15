@@ -1,4 +1,5 @@
 import express from 'express'
+import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import { router } from '#routes/index.js'
 import { config } from '#config/index.js'
@@ -13,6 +14,7 @@ app.use(express.urlencoded({ extended: true }))
 
 const whiteList = ['http://localhost:3000']
 const options = {
+  credentials: true,
   origin: (origin, callback) => {
     if (whiteList.includes(origin) || !origin) {
       callback(null, true)
@@ -22,6 +24,7 @@ const options = {
   }
 }
 
+app.use(cookieParser())
 app.use(cors(options))
 
 app.get('/', (req, res) => {
