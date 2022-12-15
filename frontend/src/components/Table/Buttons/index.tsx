@@ -1,5 +1,6 @@
 import Link from 'next/link'
 
+import IconButton from '@/components/IconButton'
 import { IProduct, IEditProduct } from 'src/types'
 import { FaPen, FaTimes, FaCheck, FaStar, FaTrashAlt } from 'react-icons/fa'
 
@@ -62,49 +63,49 @@ const TableButtons: React.FC<Props> = ({
           query: { id: `${item.id}` }
         }}
       >
-        <button className='mr-1 p-2 bg-blue-color border-[1px] rounded-md hover:bg-blue-2-color'>
+        <IconButton margin styles='bg-blue-color hover:bg-blue-2-color'>
           <FaPen />
-        </button>
+        </IconButton>
       </Link>
 
-      <button
+      <IconButton
         onClick={() => handleClick('products', 'PATCH', 'active', 'activo')}
-        className={`
-        mr-1
-        p-2
-        border-[1px]
-        rounded-md
-        ${item.activo == 1 ? 'bg-red-color hover:bg-red-2-color' : 'bg-green-color'}
-      `}>
+        margin
+        styles={`${item.activo == 1 ? 'bg-red-color hover:bg-red-2-color' : 'bg-green-color'}`}
+      >
         {item.activo == 1
           ? <FaTimes />
           : <FaCheck />
         }
-      </button>
+      </IconButton>
 
-      {!canDelete &&
-        <button
-          onClick={() => handleClick('products', 'PATCH', 'featured', 'destacado')}
-          className={`
-          p-2
-          border-[1px]
-          text-black-color
-          rounded-md
-          ${item.destacado == 1
-            ?
-              'bg-yellow-400 border-transparent hover:bg-transparent hover:border-black-color'
-            :
-              'bg-transparent border-black-color hover:bg-yellow-400 hover:border-transparent'
-          }
-        `}>
-          <FaStar />
-        </button>
+      {!canDelete
+        ?
+          <IconButton
+            onClick={() => handleClick('products', 'PATCH', 'featured', 'destacado')}
+            styles={`text-black-color
+              ${item.destacado == 1
+                ? 'bg-yellow-400 border-transparent hover:bg-transparent hover:border-black-color'
+                : 'bg-transparent border-black-color hover:bg-yellow-400 hover:border-transparent'
+            }`}
+          >
+            <FaStar />
+          </IconButton>
+        : null
       }
 
-      {canDelete &&
-        <button onClick={() => handleClick(`products/${item.id}`, 'DELETE')} className='p-2 bg-red-2-color border-[1px] rounded-md hover:bg-red-500'>
-          <FaTrashAlt />
-        </button>
+      {canDelete
+        ?
+          <IconButton
+            onClick={() => handleClick(`products/${item.id}`, 'DELETE')}
+            styles={`bg-red-color hover:bg-red-500`}
+          >
+            <FaTrashAlt />
+          </IconButton>
+        : null
+        // <button  className='p-2 bg-red-2-color border-[1px] rounded-md hover:bg-red-500'>
+        //   <FaTrashAlt />
+        // </button>
       }
     </td>
   )
