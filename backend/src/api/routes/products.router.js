@@ -2,6 +2,8 @@ import express from 'express'
 import ProductsService from '#services/products.service.js'
 
 import { validatorHandler } from '#middlewares/validator.handler.js'
+import { tokenAuthorization } from '#middlewares/authorization.handler.js'
+
 import {
   getProductSchema,
   createProductSchema,
@@ -11,14 +13,17 @@ import {
 const router = express.Router()
 const productService = new ProductsService()
 
-router.get('/', async (req, res, next) => {
-  try {
-    const response = await productService.getProducts()
-    res.status(200).json({ products: response })
-  } catch (error) {
-    next(error);
+router.get('/',
+  tokenAuthorization,
+  async (req, res, next) => {
+    try {
+      const response = await productService.getProducts()
+      res.status(200).json({ products: response })
+    } catch (error) {
+      next(error);
+    }
   }
-})
+)
 
 router.get('/:id',
   validatorHandler(getProductSchema, 'params'),
