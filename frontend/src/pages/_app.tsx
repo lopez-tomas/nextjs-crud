@@ -1,9 +1,21 @@
+import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
+import type { ReactElement, ReactNode } from 'react'
+
 import Head from 'next/head'
-import Layout from '@/components/Layout'
 import '@/styles/globals.css'
 
-export default function App({ Component, pageProps }: AppProps) {
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode
+}
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout
+}
+
+export default function App({ Component, pageProps }: AppPropsWithLayout) {
+  const getLayout = Component.getLayout ?? ((page) => page)
+
   return (
     <>
       <Head>
@@ -11,9 +23,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name='description' content='admin - Tomás López' />
         {/* <link rel='icon' href='' /> */}
       </Head>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      {getLayout(<Component {...pageProps} />)}
     </>
   )
 }
