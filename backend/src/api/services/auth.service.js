@@ -8,8 +8,14 @@ class AuthService {
     return new Promise((resolve, reject) => {
       const sql = `
         SELECT
-          usuarios.*
+          usuarios.id AS id,
+          usuarios.usuario AS username,
+          usuarios.password,
+          usuarios.id_rol,
+          roles.rol AS rol,
+          roles.admin AS is_admin
         FROM usuarios
+        LEFT JOIN roles ON usuarios.id_rol = roles.id
         WHERE 1 = 1
         AND usuarios.usuario = ?
       `
@@ -20,7 +26,7 @@ class AuthService {
         }
 
         const user = JSON.parse(JSON.stringify(results[0]))
-        const { password: userPassword, ...userData} = user
+        const { password: userPassword, id_rol, ...userData} = user
 
         const passwordMatched = await bcrypt.compare(password, userPassword)
         if (!passwordMatched) {
