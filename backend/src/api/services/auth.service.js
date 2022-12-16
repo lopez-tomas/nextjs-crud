@@ -2,7 +2,7 @@ import { connection } from '#database/index.js'
 import boom from '@hapi/boom'
 import bcrypt from 'bcryptjs'
 
-class LoginService {
+class AuthService {
 
   getUser(username, password) {
     return new Promise((resolve, reject) => {
@@ -33,4 +33,4 @@ class LoginService {
   }
 }
 
-export default LoginService
+export default AuthService

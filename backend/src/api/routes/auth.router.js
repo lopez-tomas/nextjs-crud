@@ -1,13 +1,13 @@
 import express from 'express'
 import jwt from 'jsonwebtoken'
-import LoginService from '#services/login.service.js'
-
+import AuthService from '#services/auth.service.js'
+import { tokenAuthorization } from '#middlewares/authorization.handler.js'
 import { secretKey, config } from '#config/index.js'
 
 const router = express.Router()
-const service = new LoginService()
+const service = new AuthService()
 
-router.post('/', async (req, res, next) => {
+router.post('/login', async (req, res, next) => {
   try {
     const { username, password } = req.body
 
@@ -25,6 +25,14 @@ router.post('/', async (req, res, next) => {
   } catch (err) {
     next(err)
   }
+})
+
+router.get('/logout',
+  tokenAuthorization,
+  async (req, res, next) => {
+    res.clearCookie('jwt')
+
+    return res.status(200).json({ message: 'Logout successful' })
 })
 
 export {
