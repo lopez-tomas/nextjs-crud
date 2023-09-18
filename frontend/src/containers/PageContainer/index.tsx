@@ -3,7 +3,7 @@ import React from 'react'
 interface Props {
   pretitle: string;
   title: string;
-  children?: React.ReactNode | React.ReactNode[];
+  children?: React.ReactNode;
 }
 
 const PageContainer: React.FC<Props> = ({ pretitle, title, children }) => {

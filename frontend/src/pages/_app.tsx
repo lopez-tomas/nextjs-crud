@@ -1,3 +1,6 @@
+import AppContext from '@/contexts/AppContext'
+import useInitialState from '@/hooks/useInitialState'
+
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import type { ReactElement, ReactNode } from 'react'
@@ -14,16 +17,19 @@ type AppPropsWithLayout = AppProps & {
 }
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
+  const initialState = useInitialState()
   const getLayout = Component.getLayout ?? ((page) => page)
 
   return (
-    <>
-      <Head>
-        <title>admin | by Tomás</title>
-        <meta name='description' content='admin - Tomás López' />
-        {/* <link rel='icon' href='' /> */}
-      </Head>
-      {getLayout(<Component {...pageProps} />)}
-    </>
+    <AppContext.Provider value={initialState}>
+      <>
+        <Head>
+          <title>admin | by Tomás</title>
+          <meta name='description' content='admin - Tomás López' />
+          {/* <link rel='icon' href='' /> */}
+        </Head>
+        {getLayout(<Component {...pageProps} />)}
+      </>
+    </AppContext.Provider>
   )
 }

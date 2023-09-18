@@ -12,7 +12,7 @@ router.post('/login', async (req, res, next) => {
     const { username, password } = req.body
 
     const user = await service.getUser(username, password)
-    const token = jwt.sign({ id: user.id }, secretKey, { expiresIn: '1d' })
+    const token = jwt.sign(user, secretKey, { expiresIn: '1d' })
 
     res.cookie('jwt', token, {
       path: '/',
@@ -21,7 +21,7 @@ router.post('/login', async (req, res, next) => {
       maxAge: 24 * 60 * 60 * 1000 // 1 day
     })
 
-    res.status(200).json({ user, token })
+    res.status(200).json({ user })
   } catch (err) {
     next(err)
   }
@@ -34,6 +34,40 @@ router.get('/logout',
 
     return res.status(200).json({ message: 'Logout successful' })
 })
+
+router.get('/validateToken', (req, res, next) => {
+  let token = ''
+  if (req.cookies.jwt) {
+    token = req.cookies.jwt
+  } else {
+    token = req.headers.cookies
+  }
+
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized - No token provided.' })
+  }
+
+  try {
+    const decoded = jwt.verify(token, secretKey)
+    req.userId = decoded.id
+    res.status(200).json({ data: decoded })
+  } catch {
+    next(error)
+  }
+})
+
+router.get('/tokenData',
+  tokenAuthorization,
+  async (req, res, next) => {
+    try {
+      const token = req.cookies.jwt
+      const decoded = jwt.verify(token, secretKey)
+      res.status(200).json({ data: decoded })
+    } catch (error) {
+      next(error)
+    }
+  }
+)
 
 export {
   router

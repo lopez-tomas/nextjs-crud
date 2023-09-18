@@ -6,6 +6,9 @@
       "@/public/*": ["./public/*"],
       "@/components/*": ["./src/components/*"],
       "@/containers/*": ["./src/containers/*"],
+      "@/contexts/*": ["./src/contexts/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/lib/*": ["./src/lib/*"],
       "@/pages/*": ["./src/pages/*"],
       "@/styles/*": ["./src/styles/*"]
     },

@@ -1,7 +1,14 @@
-import { useState } from 'react'
-import { NextPage } from 'next'
+import { useContext, useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Cookies from 'cookies'
+import { cookies } from 'next/headers'
 
+import { getData } from '@/lib/getData'
+import { validateToken, clearToken } from '@/lib/token'
+import AppContext from '@/contexts/AppContext'
+
+import Layout from '@/components/Layout'
 import PageContainer from '@/containers/PageContainer'
 import Button from '@/components/Button'
 import Table from '@/components/Table'
@@ -11,14 +18,30 @@ import TableButtons from '@/components/Table/Buttons'
 
 import Modal from '@/components/Modal'
 
-import { IEditProduct, IProduct } from 'src/types'
+import type { NextPageWithLayout } from '@/pages/_app'
+import type { ReactElement } from 'react'
+import type { GetServerSideProps } from 'next'
+import { AppContextProps, IEditProduct, IProduct, IUserLog } from 'src/types'
 import { FaPlus, FaStar } from 'react-icons/fa'
+import { requiredAuthentication } from 'src/HOC/requiredAuthentication'
 
 interface Props {
+  user: IUserLog;
   products: IProduct[];
 }
 
-const ProductsPage: NextPage<Props> = ({ products }) => {
+const ProductsPage: NextPageWithLayout<Props> = ({ user, products }) => {
+  const { state, setUser } = useContext<AppContextProps>(AppContext)
+  const router = useRouter()
+  setUser!(user)
+
+  // useEffect(() => {
+  //   if (state?.user === null) {
+      // Cookies.remove('jwt', { path: 'http://localhost:3000' })
+  //     router.replace('/login')
+  //   }
+  // }, [state])
+
   const [modalOpen, setModalOpen] = useState(false)
   const [modalMessage, setModalMessage] = useState('')
   const [url, setUrl] = useState('')
@@ -95,15 +118,128 @@ const ProductsPage: NextPage<Props> = ({ products }) => {
   )
 }
 
-export async function getServerSideProps() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products`)
-  const data = await res.json()
-
-  return {
-    props: {
-      products: data.products
-    }
-  }
+ProductsPage.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <Layout>
+      {page}
+    </Layout>
+  )
 }
+
+
+export const getServerSideProps: GetServerSideProps = requiredAuthentication(
+  async (_ctx) => {
+    const { req, res } = _ctx
+    const cookies = new Cookies(req, res)
+    const token = cookies.get('jwt')
+
+    if (!token) {
+      return {
+        redirect: {
+          destination: '/login',
+          permanent: false
+        }
+      }
+    }
+
+    try {
+      const [userError, user] = await getData(req, 'auth/tokenData')
+      const [dataError, data] = await getData(req, 'products')
+
+      return {
+        props: {
+          user: user.data,
+          products: data.products
+        }
+      }
+    } catch {
+      return {
+        redirect: {
+          destination: '/login',
+          permanent: false
+        }
+      }
+    }
+
+  }
+)
+
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+//   const { req, res } = context
+//   // const nextCookiesList = cookies()
+//   // const hasToken = nextCookiesList.has('jwt')
+
+//   if (context.req.headers.cookie == undefined) {
+//     return {
+//       redirect: {
+//         destination: '/login',
+//         permanent: false
+//       }
+//     }
+//   }
+
+//   try {
+//     const [tokenError, token] = await validateToken(req, res)
+
+//     if (token.status === 401) {
+//       return {
+//         redirect: {
+//           destination: '/login',
+//           permanent: false
+//         }
+//       }
+//     }
+
+//     const [dataError, data] = await getData(req, res, 'products')
+
+//     if (data.status === 401) {
+//       return {
+//         redirect: {
+//           destination: '/login',
+//           permanent: false
+//         }
+//       }
+//     }
+
+//     return {
+//       props: {
+//         // user: user,
+//         products: data.products
+//       }
+//     }
+//   } catch (err) {
+//     return {
+//       redirect: {
+//         destination: '/login',
+//         permanent: false
+//       }
+//     }
+//   }
+
+//   // const cookies = new Cookies(req, res)
+//   // const token = cookies.get('jwt')
+
+//   // if (token) {
+//   //   const [error, user] = await validateToken(req, res)
+
+//   //   if (error) {
+//   //     return {
+//   //       redirect: {
+//   //         destination: '/login',
+//   //         permanent: false
+//   //       }
+//   //     }
+//   //   }
+
+   
+//   // }
+
+//   // return {
+//   //   redirect: {
+//   //     destination: '/login',
+//   //     permanent: false
+//   //   }
+//   // }
+// }
 
 export default ProductsPage

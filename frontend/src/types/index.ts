@@ -1,3 +1,5 @@
+import type { IncomingMessage } from "http";
+
 export interface IProduct {
   id: number;
   nombre: string;
@@ -33,3 +35,21 @@ export interface ICreateProduct {
 export interface IEditProduct extends Partial<ICreateProduct> {
   id: number;
 }
+
+export interface IUserLog {
+  readonly id: number;
+  username: string;
+  rol: string;
+  is_admin: number; // boolean (1, 0)
+}
+
+export interface InitialState {
+  user: IUserLog | null;
+}
+
+export interface AppContextProps {
+  state?: InitialState;
+  setUser?: (user: any) => void;
+}
+
+export type IncomingMessageWithCookies = IncomingMessage & { cookies: Partial<{ [key: string]: string }> }
